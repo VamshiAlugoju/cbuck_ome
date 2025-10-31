@@ -409,14 +409,14 @@ ports config:
 								<PartialSegmentMaxAge>-1</PartialSegmentMaxAge>
 							</CacheControl>
 							-->
-							<ChunkDuration>0.25</ChunkDuration>
+							<ChunkDuration>0.5</ChunkDuration>
 							<!-- PartHoldBack SHOULD be at least three times the Part Target
 							Duration -->
-							<PartHoldBack>0.75</PartHoldBack>
-							<SegmentDuration>0.8</SegmentDuration>
-							<SegmentCount>6</SegmentCount>
+							<PartHoldBack>1.5</PartHoldBack>
+							<SegmentDuration>6</SegmentDuration>
+							<SegmentCount>10</SegmentCount>
 							<CrossDomains>
-								<Url>*</Url> 
+								<Url>*</Url>
 							</CrossDomains>
 							<CreateDefaultPlaylist>true</CreateDefaultPlaylist> <!-- llhls.m3u8 -->
 						</LLHLS>
