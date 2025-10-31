@@ -5,10 +5,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo "Script directory: $SCRIPT_DIR"
 
 # Load environment variables from .env if it exists
-if [ -f "$SCRIPT_DIR/.env" ]; then
-  echo "Loading environment variables from .env..."
+if [ -f "$SCRIPT_DIR/.env.server" ]; then
+  echo "Loading environment variables from .env.server..."
   set -a
-  source "$SCRIPT_DIR/.env"
+  source "$SCRIPT_DIR/.env.server"
   set +a
 else
   echo "⚠️  No .env file found in $SCRIPT_DIR"
