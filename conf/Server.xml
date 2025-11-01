@@ -3,6 +3,7 @@
 
 <!-- 
 ports config:
+
    api=8089
 
    rtmp ingest=1935
@@ -129,6 +130,10 @@ ports config:
 					<TcpRelayWorkerCount>1</TcpRelayWorkerCount>
 				</IceCandidates>
 			</WebRTC>
+                        <HLS>
+                             <Port>13333</Port>
+                <WorkerCount>1</WorkerCount>
+            </HLS>
 		</Publishers>
 	</Bind>
 
