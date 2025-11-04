@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>	
 
 
 <!-- 
@@ -443,8 +443,19 @@ ports config:
 				</Application>
 			</Applications>
 
+			<OriginMapStore>
+				<!-- In order to use OriginMap, you must enable OVT Publisher in Origin and OVT Provider in Edge. -->
+				<RedisServer>
+					<Host>${env:REDIS_HOST_ADDR:10.20.20.47:6379}</Host>
+					<!-- <Auth>!@#ovenmediaengine</Auth> -->
+				</RedisServer>
+				
+				<!-- This is only needed for the origin server and used to register the ovt address of the stream.  -->
+				<OriginHostName>${env:OME_HOST_IP:10.20.20.47}</OriginHostName>
+			</OriginMapStore>
+
 			<AdmissionWebhooks>
-				<ControlServerUrl>${env:OME_API_HOST}/v1/livestream/authorize</ControlServerUrl>
+				<ControlServerUrl>${env:SERVER_ADDR}/v1/livestream/authorize</ControlServerUrl>
 				<SecretKey>secretkey</SecretKey>
 				<Timeout>3000</Timeout>
 				<Enables>
@@ -452,7 +463,7 @@ ports config:
 					<!-- <Publishers>webrtc,llhls,thumbnail,srt</Publishers> -->
 				</Enables>
 			</AdmissionWebhooks>
-
+			
 		</VirtualHost>
 	</VirtualHosts>
 </Server>
