@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>	
+<?xml version="1.0" encoding="UTF-8"?>
 
 
 <!-- 
@@ -138,35 +138,35 @@ ports config:
 	</Bind>
 
 
-	 <!--
+	<!--
         Enable this configuration if you want to use API Server
 
         <AccessToken> is a token for authentication, and when you invoke the API, you must put "Basic base64encode(<AccessToken>)" in the "Authorization" header of HTTP request.
         For example, if you set <AccessToken> to "ome-access-token", you must set "Basic b21lLWFjY2Vzcy10b2tlbg==" in the "Authorization" header.
     -->
-    
-    <Managers>
-        <Host>
-            <Names>
-                <Name>*</Name>
-            </Names>
-            <!-- <TLS>
+
+	<Managers>
+		<Host>
+			<Names>
+				<Name>*</Name>
+			</Names>
+			<!-- <TLS>
                 <CertPath>path/to/file.crt</CertPath>
                 <KeyPath>path/to/file.key</KeyPath>
                 <ChainCertPath>path/to/file.crt</ChainCertPath>
             </TLS> -->
-        </Host>
-        <API>
-            <AccessToken>access_token</AccessToken>
+		</Host>
+		<API>
+			<AccessToken>access_token</AccessToken>
 
-            <!-- <CrossDomains>
+			<!-- <CrossDomains>
                 <Url>*.airensoft.com</Url>
                 <Url>http://*.sub-domain.airensoft.com</Url>
                 <Url>http?://airensoft.*</Url>
             </CrossDomains> -->
-        </API>
-    </Managers>
-   
+		</API>
+	</Managers>
+
 
 	<VirtualHosts>
 		<!--
@@ -238,123 +238,82 @@ ports config:
 					<!-- Application type (live/vod) -->
 					<Type>live</Type>
 					<OutputProfiles>
-						<!--  This option is deprecated. Please use the 'HWAccels' option. -->
-						<!-- 
-							<HardwareAcceleration>false</HardwareAcceleration>
-						-->
-
-						<!-- Enable this configuration if you want to hardware acceleration using
-						GPU -->
-						<HWAccels>
-							<Decoder>
-								<Enable>false</Enable>
-								<!-- 
-										Setting for Hardware Modules.
-										 - xma :Xilinx Media Accelerator
-										 - qsv :Intel Quick Sync Video
-										 - nv : Nvidia Video Codec SDK
-										 - nilogan: Netint VPU
-
-										You can use multiple modules by separating them with commas.
-										For example, if you want to use xma and nv, you can set it as follows.
-
-										<Modules>[ModuleName]:[DeviceId],[ModuleName]:[DeviceId],...</Modules>
-										<Modules>xma:0,nv:0</Modules>
-									-->
-								<!-- <Modules>nv</Modules> -->
-							</Decoder>
-							<Encoder>
-								<Enable>false</Enable>
-								<!-- <Modules>nv:0</Modules> -->
-							</Encoder>
-						</HWAccels>
-
 						<OutputProfile>
-							<Name>bypass_stream</Name>
+							<Name>passthrough</Name>
 							<OutputStreamName>${OriginStreamName}</OutputStreamName>
-
 							<Playlist>
-								<Name>default</Name>
-								<FileName>master</FileName>
-								<Options>
-									<WebRtcAutoAbr>true</WebRtcAutoAbr>
-									<HLSChunklistPathDepth>0</HLSChunklistPathDepth>
+								<Name>Paid</Name>
+								<FileName>paid</FileName>
+								<Options> <!-- Optional -->
+									<!-- 
+									Automatically switch rendition in WebRTC ABR 
+									[Default] : true
+									-->
+									<!-- <WebRtcAutoAbr>true</WebRtcAutoAbr>  -->
 									<EnableTsPackaging>true</EnableTsPackaging>
 								</Options>
-								<RenditionTemplate>
-									<Name>${Height}p</Name>
-									<VideoTemplate> <!-- Filter by video properties -->
-										<EncodingType>all</EncodingType> <!-- all, bypassed, encoded -->
-										<!-- <VariantName>bypass_video</VariantName>
-										<VideoIndexHint>0</VideoIndexHint>
-										<MaxWidth>1080</MaxWidth>
-										<MinWidth>240</MinWidth>
-										<MaxHeight>720</MaxHeight>
-										<MinHeight>240</MinHeight>
-										<MaxFPS>30</MaxFPS>
-										<MinFPS>30</MinFPS>
-										<MaxBitrate>2000000</MaxBitrate>
-										<MinBitrate>500000</MinBitrate> -->
-									</VideoTemplate>
-									<AudioTemplate> <!-- Filter by audio properties -->
-										<EncodingType>all</EncodingType> <!-- all, bypassed, encoded -->
-										<!-- <VariantName>aac_audio</VariantName>
-										<MaxBitrate>128000</MaxBitrate>
-										<MinBitrate>128000</MinBitrate>
-										<MaxSamplerate>48000</MaxSamplerate>
-										<MinSamplerate>48000</MinSamplerate>
-										<MaxChannel>2</MaxChannel>
-										<MinChannel>2</MinChannel>
-										<AudioIndexHint>0</AudioIndexHint> -->
-									</AudioTemplate>
-								</RenditionTemplate>
+								<Rendition>
+									<Name>Bypass</Name>
+									<Video>bypass_video</Video>
+									<Audio>bypass_audio</Audio>
+								</Rendition>
+								<Rendition>
+									<Name>HD</Name>
+									<Video>video_720</Video>
+									<Audio>bypass_audio</Audio>
+								</Rendition>
+								<Rendition>
+									<Name>SD</Name>
+									<Video>video_480</Video>
+									<Audio>bypass_audio</Audio>
+								</Rendition>
 							</Playlist>
-
+							<Playlist>
+								<Name>Free</Name>
+								<FileName>free</FileName>
+								<Options> <!-- Optional -->
+									<!-- 
+									Automatically switch rendition in WebRTC ABR 
+									[Default] : true
+									-->
+									<!-- <WebRtcAutoAbr>true</WebRtcAutoAbr>  -->
+									<EnableTsPackaging>true</EnableTsPackaging>
+								</Options>
+								 
+								<Rendition>
+									<Name>SD</Name>
+									<Video>video_480</Video>
+									<Audio>bypass_audio</Audio>
+								</Rendition>
+							</Playlist>
 							<Encodes>
+								<Audio>
+									<Name>bypass_audio</Name>
+									<Bypass>true</Bypass>
+								</Audio>
 								<Video>
 									<Name>bypass_video</Name>
 									<Bypass>true</Bypass>
 								</Video>
-								<Audio>
-									<Name>aac_audio</Name>
-									<Codec>aac</Codec>
-									<Bitrate>128000</Bitrate>
-									<Samplerate>48000</Samplerate>
-									<Channel>2</Channel>
-									<BypassIfMatch>
-										<Codec>eq</Codec>
-									</BypassIfMatch>
-								</Audio>
-								<Audio>
-									<Name>opus_audio</Name>
-									<Codec>opus</Codec>
-									<Bitrate>128000</Bitrate>
-									<Samplerate>48000</Samplerate>
-									<Channel>2</Channel>
-									<BypassIfMatch>
-										<Codec>eq</Codec>
-									</BypassIfMatch>
-								</Audio>
-								<!-- 							
-								<Video>
-									<Name>video_1280</Name>
-									<Codec>h264</Codec>
-									<Bitrate>5024000</Bitrate>
-									<Framerate>30</Framerate>
-									<Width>1920</Width>
-									<Height>1280</Height>
-									<Preset>faster</Preset>
-								</Video>
+							 
 								<Video>
 									<Name>video_720</Name>
 									<Codec>h264</Codec>
 									<Bitrate>2024000</Bitrate>
 									<Framerate>30</Framerate>
-									<Width>1280</Width>
-									<Height>720</Height>
+									<Width>720</Width>
+									<Height>1280</Height>
 									<Preset>faster</Preset>
 								</Video>
-								-->
+								<Video>
+									<Name>video_480</Name>
+									<Codec>h264</Codec>
+									<Bitrate>2024000</Bitrate>
+									<Framerate>30</Framerate>
+									<Width>480</Width>
+									<Height>854</Height>
+									<Preset>faster</Preset>
+								</Video>
 							</Encodes>
 						</OutputProfile>
 					</OutputProfiles>
@@ -444,18 +403,20 @@ ports config:
 			</Applications>
 
 			<OriginMapStore>
-				<!-- In order to use OriginMap, you must enable OVT Publisher in Origin and OVT Provider in Edge. -->
+				<!-- In order to use OriginMap, you must enable OVT Publisher in Origin and OVT
+				Provider in Edge. -->
 				<RedisServer>
 					<Host>${env:REDIS_HOST_ADDR:10.20.20.47:6379}</Host>
 					<!-- <Auth>!@#ovenmediaengine</Auth> -->
 				</RedisServer>
-				
-				<!-- This is only needed for the origin server and used to register the ovt address of the stream.  -->
+
+				<!-- This is only needed for the origin server and used to register the ovt address
+				of the stream.  -->
 				<OriginHostName>${env:OME_HOST_IP:10.20.20.47}</OriginHostName>
 			</OriginMapStore>
 
 			<AdmissionWebhooks>
-				<ControlServerUrl>${env:SERVER_ADDR}/v1/livestream/authorize</ControlServerUrl>
+				<ControlServerUrl>http://10.20.20.47:8086/v1/livestream/authorize</ControlServerUrl>
 				<SecretKey>secretkey</SecretKey>
 				<Timeout>3000</Timeout>
 				<Enables>
@@ -463,7 +424,23 @@ ports config:
 					<!-- <Publishers>webrtc,llhls,thumbnail,srt</Publishers> -->
 				</Enables>
 			</AdmissionWebhooks>
-			
+
 		</VirtualHost>
 	</VirtualHosts>
+
+	<Alert>
+		<Url>http://10.20.20.47:8086/v1/livestream/alerts</Url>
+		<SecretKey>secretkey</SecretKey>
+		<Timeout>3000</Timeout>
+		<!-- <RulesFile>AlertRules.xml</RulesFile> -->
+		<Rules>
+			<Ingress>
+				<StreamStatus />
+				
+			</Ingress>
+			<Egress>
+				<LLHLSReady />
+			</Egress>
+		</Rules>
+	</Alert>
 </Server>

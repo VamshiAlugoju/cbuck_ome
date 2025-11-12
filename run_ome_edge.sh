@@ -36,7 +36,6 @@
     -e DEFAULT_ORIGIN_SERVER="$DEFAULT_ORIGIN_SERVER" \
     -v "$SCRIPT_DIR/edge_conf/Server.xml:/opt/ovenmediaengine/bin/edge_conf/Server.xml" \
     -p 3333:3333 \
-    -p 8089:8089 \
     -p 13333:13333 \
     -d airensoft/ovenmediaengine:v0.19.0 \
      /opt/ovenmediaengine/bin/OvenMediaEngine -c edge_conf
@@ -46,3 +45,4 @@
   #   -p 10000-10009:10000-10009/udp \
   #   -p 9999:9999/udp \
   #   -p 9000:9000 \
+    # -p 8089:8089 \
