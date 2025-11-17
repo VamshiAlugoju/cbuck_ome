@@ -33,6 +33,8 @@ docker run \
   --name ome \
   -e OME_HOST_IP="$OME_HOST_IP" \
   -e OME_API_HOST="$OME_API_HOST" \
+  -e SERVER_ADDR="$SERVER_ADDR" \
+  -e REDIS_HOST_ADDR="$REDIS_HOST_ADDR" \
   -v "$SCRIPT_DIR/conf:/opt/ovenmediaengine/bin/origin_conf" \
   -p 1935:1935 \
   -p 8089:8089 \

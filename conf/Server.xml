@@ -416,7 +416,7 @@ ports config:
 			</OriginMapStore>
 
 			<AdmissionWebhooks>
-				<ControlServerUrl>http://10.20.20.47:8086/v1/livestream/authorize</ControlServerUrl>
+				<ControlServerUrl>${env:SERVER_ADDR}/v1/livestream/authorize</ControlServerUrl>
 				<SecretKey>secretkey</SecretKey>
 				<Timeout>3000</Timeout>
 				<Enables>
@@ -429,7 +429,7 @@ ports config:
 	</VirtualHosts>
 
 	<Alert>
-		<Url>http://10.20.20.47:8086/v1/livestream/alerts</Url>
+		<Url>${env:SERVER_ADDR}/v1/livestream/alerts</Url>
 		<SecretKey>secretkey</SecretKey>
 		<Timeout>3000</Timeout>
 		<!-- <RulesFile>AlertRules.xml</RulesFile> -->

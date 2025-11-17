@@ -33,15 +33,18 @@ docker run \
   --name ome \
   -e OME_HOST_IP="$OME_HOST_IP" \
   -e OME_API_HOST="$OME_API_HOST" \
+  -e SERVER_ADDR="$SERVER_ADDR" \
+  -e REDIS_HOST_ADDR="$REDIS_HOST_ADDR" \
   -v "$SCRIPT_DIR/conf:/opt/ovenmediaengine/bin/origin_conf" \
   -p 1935:1935 \
-  -p 3333:3333 \
-  -p 3478:3478 \
   -p 8089:8089 \
+ -p 3333:3333 \
   -p 9000:9000 \
-  -p 13333:13333 \
-  -p 9999:9999/udp \
-  -p 10000-10009:10000-10009/udp \
   -d airensoft/ovenmediaengine:v0.19.0
 
 echo "✅ OME running at $OME_API_HOST"
+
+  # -p 3478:3478 \
+  # -p 13333:13333 \
+  # -p 9999:9999/udp \
+  # -p 10000-10009:10000-10009/udp \
