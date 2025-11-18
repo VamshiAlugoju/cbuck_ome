@@ -11,7 +11,7 @@ if [ -f "$SCRIPT_DIR/.env.server" ]; then
   source "$SCRIPT_DIR/.env.server"
   set +a
 else
-  echo "⚠️  No .env file found in $SCRIPT_DIR"
+  echo "⚠️  No .env.server file found in $SCRIPT_DIR"
 fi
 
 # Ensure required vars are set
@@ -48,3 +48,27 @@ echo "✅ OME running at $OME_API_HOST"
   # -p 13333:13333 \
   # -p 9999:9999/udp \
   # -p 10000-10009:10000-10009/udp \
+
+  
+echo "🚀 Starting testserver..."
+
+cd "$SCRIPT_DIR/testserver"
+
+# Build the Docker image from Dockerfile inside ./testserver
+docker build -t testserver .
+
+# Stop & remove old container (optional but safe)
+existingTest=$(docker ps -aq -f "name=testserver")
+if [ -n "$existingTest" ]; then
+    echo "Stopping and removing existing 'testserver' container..."
+    docker stop testserver >/dev/null 2>&1
+    docker rm testserver >/dev/null 2>&1
+fi
+
+# Run the container
+docker run \
+  --name testserver \
+  -p 3000:3000 \
+  -d testserver
+
+cd ..
