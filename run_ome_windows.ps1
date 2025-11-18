@@ -51,3 +51,29 @@ docker run `
   -d airensoft/ovenmediaengine:v0.19.0
 
 Write-Host "✅ OME running at $($env:OME_API_HOST)"
+
+Write-Host "🚀 Starting testserver..."
+
+Write-Host "🚀 Starting testserver..."
+
+cd "$ScriptDir\testserver"
+
+# Build the Docker image from Dockerfile inside ./testserver
+docker build -t testserver .
+
+# Stop & remove old container (optional but safe)
+$existingTest = docker ps -aq -f "name=testserver"
+if ($existingTest) {
+    Write-Host "Stopping and removing existing 'testserver' container..."
+    docker stop testserver | Out-Null
+    docker rm testserver | Out-Null
+}
+
+# Run the container
+docker run `
+  --name testserver `
+  -p 3000:3000 `
+  -d testserver
+
+
+cd ..
