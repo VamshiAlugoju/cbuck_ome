@@ -15,10 +15,10 @@ else
 fi
 
 # Ensure required vars are set
-if [ -z "$OME_HOST_IP" ] || [ -z "$OME_API_HOST" ]; then
-  echo "❌ Missing OME_HOST_IP or OME_API_HOST. Please set them in .env"
-  exit 1
-fi
+# if [ -z "$OME_HOST_IP" ] || [ -z "$OME_API_HOST" ]; then
+#   echo "❌ Missing OME_HOST_IP or OME_API_HOST. Please set them in .env"
+#   exit 1
+# fi
 
 # Stop and remove existing container if running
 if [ "$(docker ps -aq -f name=ome)" ]; then
