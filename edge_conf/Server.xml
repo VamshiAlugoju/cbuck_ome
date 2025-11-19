@@ -222,7 +222,7 @@ In other words, an application with <Name> as * serves as a dynamic application 
 				<!-- In order to use OriginMap, you must enable OVT Publisher in Origin and OVT
 				Provider in Edge. -->
 				<RedisServer>
-					<Host>${env:REDIS_HOST_ADDR:10.20.20.47:6379}</Host>
+					<Host>161.35.37.230:6379</Host>
 					<!-- <Auth>!@#ovenmediaengine</Auth> -->
 				</RedisServer>
 

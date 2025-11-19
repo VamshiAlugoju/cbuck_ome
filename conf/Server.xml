@@ -65,12 +65,12 @@ ports config:
 				<WorkerCount>1</WorkerCount>
 			</RTSPC> -->
 			<OVT>
-				<WorkerCount>1</WorkerCount>
+				<WorkerCount>2</WorkerCount>
 			</OVT>
 			<!-- Push providers -->
 			<RTMP>
 				<Port>${env:OME_RTMP_PROV_PORT:1935}</Port>
-				<WorkerCount>1</WorkerCount>
+				<WorkerCount>2</WorkerCount>
 			</RTMP>
 			<!-- <SRT>
 				<Port>${env:OME_SRT_PROV_PORT:9999}</Port>
@@ -225,6 +225,19 @@ ports config:
 				<OriginHostName>${env:OME_HOST_IP:192.168.0.160}</OriginHostName>
 			</OriginMapStore>
 			-->
+			<OriginMapStore>
+				<!-- In order to use OriginMap, you must enable OVT Publisher in Origin and OVT
+				Provider in Edge. -->
+				<RedisServer>
+					<Host>${env:REDIS_HOST_ADDR:10.20.20.47:6379}</Host>
+					<!-- <Auth>!@#ovenmediaengine</Auth> -->
+				</RedisServer>
+
+				<!-- This is only needed for the origin server and used to register the ovt address
+				of the stream.  -->
+				<OriginHostName>13.234.126.4</OriginHostName>
+			</OriginMapStore>
+
 
 			<!-- Default CORS Settings -->
 			<CrossDomains>
@@ -402,18 +415,6 @@ ports config:
 				</Application>
 			</Applications>
 
-			<OriginMapStore>
-				<!-- In order to use OriginMap, you must enable OVT Publisher in Origin and OVT
-				Provider in Edge. -->
-				<RedisServer>
-					<Host>${env:REDIS_HOST_ADDR:10.20.20.47:6379}</Host>
-					<!-- <Auth>!@#ovenmediaengine</Auth> -->
-				</RedisServer>
-
-				<!-- This is only needed for the origin server and used to register the ovt address
-				of the stream.  -->
-				<OriginHostName>${env:OME_HOST_IP:10.20.20.47}</OriginHostName>
-			</OriginMapStore>
 
 			<AdmissionWebhooks>
 				<ControlServerUrl>${env:SERVER_ADDR}/v1/livestream/authorize</ControlServerUrl>

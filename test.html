@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HLS Players</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #f7f7f7;
+        padding: 20px;
+      }
+      .player-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      video {
+        width: 32%;
+        background: #000;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>3 HLS / LL-HLS Players</h2>
+    <div style="margin: 12px 0; display: flex; gap: 8px; align-items: center;"></div>
+      <label for="streamSelect">Stream URL:</label>
+      <select id="streamSelect">
+        <option value="" selected disabled>Select a stream</option>
+      </select>
+      <button id="startBtn">Start</button>
+    </div>
+
+    <div class="player-container">
+      <video id="v1" controls muted></video>
+      <video id="v2" controls muted></video>
+      <video id="v3" controls muted></video>
+    </div>
+
+    <script>
+      const urls = [
+        "http://13.234.126.4:3333/app/csc_6904696c75bb7813570d9fhr/llhls.m3u8",
+        "http://13.234.126.4:3333/app/csc_6904696c75bb7813570d9fcd/llhls.m3u8",
+        "http://13.234.126.4:3333/app/csc_6904696c75bb7813570d9fcf/llhls.m3u8",
+      ];
+
+      // Populate dropdown with available URLs (no default selection)
+      const selectEl = document.getElementById("streamSelect");
+      urls.forEach((u) => {
+        const opt = document.createElement("option");
+        opt.value = u;
+        opt.textContent = u;
+        selectEl.appendChild(opt);
+      });
+
+      function loadPlayer(videoEl, src) {
+        if (Hls.isSupported()) {
+          const hls = new Hls({ lowLatencyMode: true });
+          hls.loadSource(src);
+          hls.attachMedia(videoEl);
+          videoEl.play().catch(() => {});
+        } else if (videoEl.canPlayType("application/vnd.apple.mpegurl")) {
+          videoEl.src = src;
+          videoEl.play().catch(() => {});
+        }
+      }
+
+      // Start playback only after user selects a URL and clicks Start
+      document.getElementById("startBtn").addEventListener("click", () => {
+        const src = selectEl.value;
+        // if (!src) {
+        //   alert("Please select a stream URL.");
+        //   return;
+        // }
+        urls.forEach((u, id) => {
+          loadPlayer(document.getElementById("v" + (id+1)), u);
+        });
+        // loadPlayer(document.getElementById("v2"), src);
+        // loadPlayer(document.getElementById("v3"), src);
+      });
+    </script>
+  </body>
+</html>
